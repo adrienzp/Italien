@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Carte — Trattoria della Vigna</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.menu-page { padding-top: 70px; background: var(--blanc); }
+
+.menu-nav-tabs {
+  background: var(--creme-fonce);
+  padding: 0 80px;
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid rgba(74,82,64,0.1);
+  overflow-x: auto;
+}
+
+.tab-btn {
+  padding: 20px 28px;
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--texte-doux);
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover { color: var(--olive); }
+.tab-btn.active { color: var(--terra); border-bottom-color: var(--terra); }
+
+.menu-section { padding: 80px; max-width: 1100px; margin: 0 auto; display: none; }
+.menu-section.active { display: block; }
+
+.menu-section-header { text-align: center; margin-bottom: 64px; }
+
+.menu-category { margin-bottom: 60px; }
+
+.category-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--terra);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.category-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(74,82,64,0.12);
+}
+
+.plat-list { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+.plat-item {
+  padding: 24px;
+  border: 1px solid rgba(74,82,64,0.07);
+  background: var(--blanc);
+  transition: all 0.3s;
+  position: relative;
+}
+
+.plat-item:hover { background: var(--creme-fonce); border-color: rgba(74,82,64,0.15); }
+
+.plat-item-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 16px; }
+
+.plat-item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--brun);
+  font-weight: 400;
+}
+
+.plat-item-name em { font-style: italic; }
+
+.plat-item-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--terra);
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.plat-item-desc { font-size: 12px; color: var(--texte-doux); line-height: 1.7; }
+
+.plat-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--olive);
+  color: var(--blanc);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+}
+
+.formule-box {
+  background: linear-gradient(135deg, var(--olive), var(--brun));
+  padding: 48px;
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.formule-item { text-align: center; color: var(--creme); }
+.formule-item-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+.formule-item-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  color: var(--terra-clair);
+  margin-bottom: 8px;
+}
+.formule-item-desc { font-size: 11px; opacity: 0.65; line-height: 1.7; }
+.formule-divider { width: 1px; background: rgba(255,255,255,0.1); }
+
+.vins-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2px; }
+
+.vin-item {
+  padding: 28px;
+  border: 1px solid rgba(74,82,64,0.08);
+  background: var(--creme-fonce);
+}
+
+.vin-pays { font-size: 9px; letter-spacing: 3px; color: var(--terra); text-transform: uppercase; margin-bottom: 8px; }
+.vin-nom { font-family: 'Playfair Display', serif; font-size: 16px; color: var(--brun); margin-bottom: 4px; }
+.vin-desc { font-size: 11px; color: var(--texte-doux); line-height: 1.7; margin-bottom: 12px; }
+.vin-prix { font-size: 13px; color: var(--terra); font-weight: 700; }
+
+.allergenes-note {
+  text-align: center;
+  padding: 32px;
+  background: rgba(74,82,64,0.04);
+  font-size: 11px;
+  color: var(--texte-doux);
+  letter-spacing: 1px;
+  margin-top: 48px;
+}
+
+@media(max-width: 768px) {
+  .menu-nav-tabs { padding: 0 16px; }
+  .menu-section { padding: 40px 20px; }
+  .plat-list, .vins-list { grid-template-columns: 1fr; }
+  .formule-box { grid-template-columns: 1fr; }
+  .formule-divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="menu.html" class="active">La Carte</a></li>
+    <li><a href="chef.html">Le Chef</a></li>
+  </ul>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-name">Trattoria della Vigna</div>
+    <div class="nav-logo-sub">Cuisine italienne · Lyon 2e</div>
+  </a>
+  <ul class="nav-links" style="justify-content:flex-end;">
+    <li><a href="horaires.html">Horaires</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservation.html" class="nav-reserve">Réserver</a></li>
+  </ul>
+</nav>
+
+<div class="menu-page">
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">✦ Fait maison chaque jour</div>
+      <h1 class="page-title">La <em>Carte</em></h1>
+      <div class="terra-line"></div>
+      <p class="page-subtitle">Antipasti · Pasta · Secondi · Dolci · Vini</p>
+    </div>
+  </div>
+
+  <!-- ONGLETS -->
+  <div class="menu-nav-tabs">
+    <button class="tab-btn active" onclick="showTab('carte')">🍝 La Carte</button>
+    <button class="tab-btn" onclick="showTab('formules')">🌿 Formules</button>
+    <button class="tab-btn" onclick="showTab('vins')">🍷 Vins</button>
+    <button class="tab-btn" onclick="showTab('dolci')">🍮 Dolci</button>
+  </div>
+
+  <!-- LA CARTE -->
+  <div class="menu-section active" id="tab-carte">
+    <div class="menu-section-header">
+      <div class="section-eyebrow">✦ Entrées & Partage</div>
+      <div class="section-title">Antipasti</div>
+      <div class="terra-line"></div>
+    </div>
+
+    <div class="menu-category">
+      <div class="category-title">À partager</div>
+      <div class="plat-list">
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Burrata <em>e pomodoro</em></div>
+            <div class="plat-item-price">13€</div>
+          </div>
+          <div class="plat-item-desc">Burrata crémeuse, tomates cerises confites, basilic frais, huile d'olive AOP Toscane.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-badge">Maison</div>
+          <div class="plat-item-header">
+            <div class="plat-item-name">Charcuterie <em>toscane</em></div>
+            <div class="plat-item-price">16€</div>
+          </div>
+          <div class="plat-item-desc">Finocchiona, bresaola, coppa. Importées chaque semaine de Toscane. Grissini maison.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Bruschetta <em>variata</em></div>
+            <div class="plat-item-price">10€</div>
+          </div>
+          <div class="plat-item-desc">3 bruschettas : tomate-basilic, ricotta-épinards, champignons-truffe.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Carpaccio di manzo</div>
+            <div class="plat-item-price">15€</div>
+          </div>
+          <div class="plat-item-desc">Bœuf charolais tranché fin, roquette, copeaux de parmesan 36 mois, câpres.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <div class="category-title">Primi Piatti — Pasta & Risotto</div>
+      <div class="plat-list">
+        <div class="plat-item reveal">
+          <div class="plat-badge">Signature</div>
+          <div class="plat-item-header">
+            <div class="plat-item-name">Pappardelle <em>al ragù</em></div>
+            <div class="plat-item-price">19€</div>
+          </div>
+          <div class="plat-item-desc">Pâtes fraîches maison, ragù de bœuf mijoté 6h, parmesan 24 mois, basilic frais.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Tagliolini <em>al tartufo</em></div>
+            <div class="plat-item-price">24€</div>
+          </div>
+          <div class="plat-item-desc">Pâtes fraîches, crème de truffe noire, champignons des bois, parmesan.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Spaghetti alle vongole</div>
+            <div class="plat-item-price">21€</div>
+          </div>
+          <div class="plat-item-desc">Palourdes fraîches, ail, persil, vin blanc, huile d'olive. Recette napolitaine.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Risotto <em>Milanese</em></div>
+            <div class="plat-item-price">18€</div>
+          </div>
+          <div class="plat-item-desc">Riz carnaroli, safran de qualité supérieure, beurre de Normandie, parmesan.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Gnocchi <em>al pomodoro</em></div>
+            <div class="plat-item-price">16€</div>
+          </div>
+          <div class="plat-item-desc">Gnocchi maison, sauce tomate San Marzano mijotée, basilic frais, burrata.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Carbonara <em>originale</em></div>
+            <div class="plat-item-price">17€</div>
+          </div>
+          <div class="plat-item-desc">La vraie recette romaine. Guanciale, œuf, pecorino romano. Sans crème — jamais.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="menu-category">
+      <div class="category-title">Secondi — Viandes & Poissons</div>
+      <div class="plat-list">
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Saltimbocca <em>alla Romana</em></div>
+            <div class="plat-item-price">26€</div>
+          </div>
+          <div class="plat-item-desc">Escalope de veau, prosciutto, sauge, jus de veau réduit. Purée de pomme de terre.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Branzino <em>al forno</em></div>
+            <div class="plat-item-price">28€</div>
+          </div>
+          <div class="plat-item-desc">Bar rôti entier, légumes de saison, câpres, citron, huile d'olive.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Ossobuco <em>Milanese</em></div>
+            <div class="plat-item-price">29€</div>
+          </div>
+          <div class="plat-item-desc">Jarret de veau braisé, gremolata, risotto Milanese. Plat emblématique de la trattoria.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Pollo <em>alla cacciatore</em></div>
+            <div class="plat-item-price">22€</div>
+          </div>
+          <div class="plat-item-desc">Poulet fermier mijoté, tomates, olives, câpres, vin blanc. Recette de montagne.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="allergenes-note">
+      🌿 Plats végétariens disponibles · Allergènes disponibles sur demande · Carte modifiée selon les saisons
+    </div>
+  </div>
+
+  <!-- FORMULES -->
+  <div class="menu-section" id="tab-formules">
+    <div class="menu-section-header">
+      <div class="section-eyebrow">✦ Nos formules</div>
+      <div class="section-title">Bien manger,<br><em>à bon prix</em></div>
+      <div class="terra-line"></div>
+      <p class="section-intro" style="text-align:center;margin:16px auto 0;">Nos formules changent chaque semaine selon les arrivages et les saisons.</p>
+    </div>
+    <div class="formule-box">
+      <div class="formule-item">
+        <div class="formule-item-title">Menu Pranzo</div>
+        <div class="formule-item-price">16€</div>
+        <div class="formule-item-desc">Entrée + Plat<br>ou Plat + Dessert<br><br>Midi uniquement · Du mardi au vendredi</div>
+      </div>
+      <div class="formule-divider"></div>
+      <div class="formule-item">
+        <div class="formule-item-title" style="color:var(--terra-clair);">Menu Trattoria</div>
+        <div class="formule-item-price">34€</div>
+        <div class="formule-item-desc">Antipasto + Primo<br>+ Secondo + Dolce<br><br>Déjeuner & dîner · 7j/7</div>
+      </div>
+      <div class="formule-divider"></div>
+      <div class="formule-item">
+        <div class="formule-item-title">Menu Famiglia</div>
+        <div class="formule-item-price">28€/pers.</div>
+        <div class="formule-item-desc">Plats à partager<br>+ Vin en carafe inclus<br><br>Minimum 4 personnes</div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <button onclick="ouvrirPopup()" class="btn-terra">Réserver pour profiter</button>
+    </div>
+  </div>
+
+  <!-- VINS -->
+  <div class="menu-section" id="tab-vins">
+    <div class="menu-section-header">
+      <div class="section-eyebrow">✦ Sélection du sommelier</div>
+      <div class="section-title">Vins <em>Italiens</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="menu-category">
+      <div class="category-title">Vins rouges</div>
+      <div class="vins-list">
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Toscane</div>
+          <div class="vin-nom">Chianti Classico DOCG</div>
+          <div class="vin-desc">Sangiovese, notes de cerise et d'épices. Parfait avec nos pâtes au ragù.</div>
+          <div class="vin-prix">Verre 7€ · Bouteille 34€</div>
+        </div>
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Piémont</div>
+          <div class="vin-nom">Barolo DOCG 2018</div>
+          <div class="vin-desc">Le roi des vins italiens. Nebbiolo élégant, tanins soyeux, finale longue.</div>
+          <div class="vin-prix">Bouteille 68€</div>
+        </div>
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Sicile</div>
+          <div class="vin-nom">Nero d'Avola</div>
+          <div class="vin-desc">Fruité, généreux, notes de prune et de chocolat. Grand rapport qualité-prix.</div>
+          <div class="vin-prix">Verre 6€ · Bouteille 28€</div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-category">
+      <div class="category-title">Vins blancs & bulles</div>
+      <div class="vins-list">
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Vénétie</div>
+          <div class="vin-nom">Prosecco DOC Extra Dry</div>
+          <div class="vin-desc">Bulles fines, fraîcheur florale. L'apéritif incontournable de la trattoria.</div>
+          <div class="vin-prix">Coupe 6€ · Bouteille 26€</div>
+        </div>
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Frioul</div>
+          <div class="vin-nom">Pinot Grigio DOC</div>
+          <div class="vin-desc">Sec, minéral, notes d'agrumes. Accord parfait avec les poissons et fruits de mer.</div>
+          <div class="vin-prix">Verre 6.5€ · Bouteille 30€</div>
+        </div>
+        <div class="vin-item reveal">
+          <div class="vin-pays">🇮🇹 Campanie</div>
+          <div class="vin-nom">Falanghina Beneventano</div>
+          <div class="vin-desc">Cépage typique du Sud, poire et fleurs blanches, belle acidité.</div>
+          <div class="vin-prix">Bouteille 32€</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:32px;background:var(--creme-fonce);margin-top:48px;">
+      <p style="font-size:12px;color:var(--texte-doux);">🍷 Carafe de vin rouge ou blanc maison · 0.25L 6€ · 0.50L 11€ · 1L 20€</p>
+    </div>
+  </div>
+
+  <!-- DOLCI -->
+  <div class="menu-section" id="tab-dolci">
+    <div class="menu-section-header">
+      <div class="section-eyebrow">✦ La douceur italienne</div>
+      <div class="section-title">Nos <em>Desserts</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="menu-category">
+      <div class="category-title">Dolci</div>
+      <div class="plat-list">
+        <div class="plat-item reveal">
+          <div class="plat-badge">Signature</div>
+          <div class="plat-item-header">
+            <div class="plat-item-name">Tiramisù <em>classico</em></div>
+            <div class="plat-item-price">8€</div>
+          </div>
+          <div class="plat-item-desc">La recette originale de la nonna. Mascarpone, savoiardi, café fort, cacao.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Panna cotta</div>
+            <div class="plat-item-price">7€</div>
+          </div>
+          <div class="plat-item-desc">Vanille de Madagascar, coulis de fruits rouges ou caramel beurre salé.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Cannoli Siciliani</div>
+            <div class="plat-item-price">9€</div>
+          </div>
+          <div class="plat-item-desc">Cannolis frits maison, ricotta fraîche sucrée, pistaches de Sicile, zeste d'orange.</div>
+        </div>
+        <div class="plat-item reveal">
+          <div class="plat-item-header">
+            <div class="plat-item-name">Affogato al caffè</div>
+            <div class="plat-item-price">6€</div>
+          </div>
+          <div class="plat-item-desc">Boule de glace vanille, expresso chaud. Simple et parfait.</div>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <button onclick="ouvrirPopup()" class="btn-terra">Réserver et se faire plaisir</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup-reservation">
+  <div class="popup-inner">
+    <div class="popup-header">
+      <div>
+        <div class="popup-title-small">🌿 Trattoria della Vigna</div>
+        <div class="popup-title">Réserver une table</div>
+      </div>
+      <button class="popup-close" onclick="fermerPopup()">✕</button>
+    </div>
+    <iframe src="https://restaurant-reservation-9r5p.vercel.app/"></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo-name">Trattoria della Vigna</span>
+      <span class="nav-logo-sub">Cuisine italienne · Lyon 2e</span>
+      <p>12 Rue Mercière<br>69002 Lyon · 04 78 00 00 00</p>
+    </div>
+    <div class="footer-links"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">La Carte</a></li><li><a href="chef.html">Le Chef</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="horaires.html">Horaires</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Infos</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Allergènes</a></li><li><a href="#">Recrutement</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Trattoria della Vigna · Tous droits réservés</p>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TripAdvisor</a></div>
+  </div>
+</footer>
+
+<div class="notif" id="notif"><div class="notif-title"></div><div class="notif-text"></div></div>
+<script src="main.js"></script>
+<script>
+function showTab(name) {
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

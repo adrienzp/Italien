@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réservation & Contact — Trattoria della Vigna</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.contact-page { padding-top: 70px; }
+
+/* RESERVATION PRINCIPALE */
+.resa-main {
+  background: var(--creme);
+  padding: 80px;
+}
+
+.resa-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1000px;
+  margin: 60px auto 0;
+}
+
+/* IFRAME RESA */
+.resa-frame-wrapper {
+  border: 1px solid rgba(74,82,64,0.12);
+  background: var(--blanc);
+  overflow: hidden;
+}
+
+.resa-frame-header {
+  background: var(--olive);
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.resa-frame-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--terra-clair);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+.resa-frame-label { font-size: 10px; letter-spacing: 3px; color: rgba(245,239,224,0.8); text-transform: uppercase; }
+.resa-frame-wrapper iframe { width: 100%; height: 520px; border: none; display: block; }
+
+/* INFOS CONTACT */
+.contact-side { }
+.contact-side .section-title { margin-bottom: 8px; }
+
+.contact-blocks { margin-top: 36px; display: flex; flex-direction: column; gap: 2px; }
+
+.contact-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px;
+  background: var(--blanc);
+  border: 1px solid rgba(74,82,64,0.08);
+  transition: all 0.3s;
+}
+
+.contact-block:hover { border-color: rgba(196,113,74,0.3); }
+
+.contact-block-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.contact-block-title { font-size: 9px; letter-spacing: 3px; color: var(--terra); text-transform: uppercase; margin-bottom: 6px; }
+.contact-block-info { font-family: 'Playfair Display', serif; font-size: 17px; color: var(--brun); margin-bottom: 4px; font-weight: 400; }
+.contact-block-detail { font-size: 12px; color: var(--texte-doux); line-height: 1.7; }
+
+/* FORMULAIRE CONTACT */
+.section-contact-form { background: var(--creme-fonce); padding: 80px; }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 960px;
+  margin: 60px auto 0;
+  align-items: start;
+}
+
+.form-wrapper { background: var(--blanc); padding: 48px; border: 1px solid rgba(74,82,64,0.1); }
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--terra);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--creme);
+  border: 1px solid rgba(74,82,64,0.15);
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  color: var(--texte);
+  transition: border-color 0.3s;
+  outline: none;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--olive);
+  background: var(--blanc);
+}
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.form-submit {
+  width: 100%;
+  padding: 16px;
+  background: var(--terra);
+  color: var(--blanc);
+  border: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+
+.form-submit:hover { background: var(--terra-clair); }
+
+/* TEXTE CÔTÉ */
+.form-side { }
+
+.form-side .section-title { font-size: 36px; }
+
+.faq-list { margin-top: 36px; }
+
+.faq-item {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(74,82,64,0.1);
+}
+
+.faq-question {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brun);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.faq-answer { font-size: 12px; color: var(--texte-doux); line-height: 1.8; }
+
+/* CARTE */
+.section-map { background: var(--olive); padding: 0; }
+.map-placeholder {
+  height: 340px;
+  background: linear-gradient(160deg, var(--olive), var(--brun));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.map-placeholder p { font-size: 12px; color: rgba(245,239,224,0.6); letter-spacing: 2px; text-transform: uppercase; }
+.map-placeholder a {
+  color: var(--terra-clair);
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(196,113,74,0.4);
+  padding-bottom: 2px;
+}
+
+@media(max-width: 768px) {
+  .resa-main { padding: 40px 20px; }
+  .resa-grid { grid-template-columns: 1fr; }
+  .section-contact-form { padding: 60px 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .form-wrapper { padding: 32px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="menu.html">La Carte</a></li>
+    <li><a href="chef.html">Le Chef</a></li>
+  </ul>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-name">Trattoria della Vigna</div>
+    <div class="nav-logo-sub">Cuisine italienne · Lyon 2e</div>
+  </a>
+  <ul class="nav-links" style="justify-content:flex-end;">
+    <li><a href="horaires.html">Horaires</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="reservation.html" class="nav-reserve" style="background:var(--terra)!important;">Réserver</a></li>
+  </ul>
+</nav>
+
+<div class="contact-page">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">✦ Nous retrouver</div>
+      <h1 class="page-title">Réservation &<br><em>Contact</em></h1>
+      <div class="terra-line"></div>
+      <p class="page-subtitle">Réservez en ligne · Par téléphone · Par email</p>
+    </div>
+  </div>
+
+  <!-- RÉSERVATION PRINCIPALE -->
+  <section class="resa-main">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Réservez votre table</div>
+      <div class="section-title">Simple &<br><em>rapide</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="resa-grid">
+
+      <!-- IFRAME SYSTÈME RÉSERVATION -->
+      <div class="resa-frame-wrapper reveal">
+        <div class="resa-frame-header">
+          <div class="resa-frame-dot"></div>
+          <div class="resa-frame-label">🌿 Réservation sécurisée en ligne</div>
+        </div>
+        <iframe src="https://restaurant-reservation-9r5p.vercel.app/"></iframe>
+      </div>
+
+      <!-- INFOS CONTACT -->
+      <div class="contact-side reveal" style="transition-delay:0.15s;">
+        <div class="section-eyebrow">✦ Nous contacter</div>
+        <div class="section-title" style="font-size:36px;">Une question ?<br><em>On répond.</em></div>
+        <p style="font-size:13px;color:var(--texte-doux);line-height:2;margin-top:16px;margin-bottom:32px;">Préférez-vous appeler ? Envoyer un email ? Réserver directement au restaurant ? Toutes les options sont disponibles.</p>
+
+        <div class="contact-blocks">
+          <div class="contact-block">
+            <div class="contact-block-icon">📞</div>
+            <div>
+              <div class="contact-block-title">Téléphone</div>
+              <div class="contact-block-info"><a href="tel:+33478000000" style="text-decoration:none;color:inherit;">04 78 00 00 00</a></div>
+              <div class="contact-block-detail">Mar–Dim · 10h–15h & 18h–22h</div>
+            </div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-block-icon">✉️</div>
+            <div>
+              <div class="contact-block-title">Email</div>
+              <div class="contact-block-info" style="font-size:15px;"><a href="mailto:contact@trattoria-vigna.fr" style="text-decoration:none;color:inherit;">contact@trattoria-vigna.fr</a></div>
+              <div class="contact-block-detail">Réponse sous 24h · Groupes & événements</div>
+            </div>
+          </div>
+          <div class="contact-block">
+            <div class="contact-block-icon">📍</div>
+            <div>
+              <div class="contact-block-title">Adresse</div>
+              <div class="contact-block-info">12 Rue Mercière</div>
+              <div class="contact-block-detail">69002 Lyon · Presqu'île<br>Métro Bellecour (A & D) · 3 min</div>
+            </div>
+          </div>
+          <div class="contact-block" style="background:rgba(74,82,64,0.04);">
+            <div class="contact-block-icon">👥</div>
+            <div>
+              <div class="contact-block-title">Groupes & Événements</div>
+              <div class="contact-block-info" style="font-size:15px;">+8 personnes ?</div>
+              <div class="contact-block-detail">Contactez-nous directement par téléphone ou email pour une offre personnalisée.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMULAIRE CONTACT -->
+  <section class="section-contact-form">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Envoyez-nous un message</div>
+      <div class="section-title">Un projet,<br><em>une question ?</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="form-grid">
+      <div class="form-wrapper reveal">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prénom *</label>
+            <input type="text" placeholder="Marco">
+          </div>
+          <div class="form-group">
+            <label>Nom *</label>
+            <input type="text" placeholder="Rossi">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" placeholder="marco@exemple.fr">
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" placeholder="06 00 00 00 00">
+        </div>
+        <div class="form-group">
+          <label>Sujet</label>
+          <select>
+            <option>Demande de renseignement</option>
+            <option>Réservation groupe (+8 pers.)</option>
+            <option>Événement privé</option>
+            <option>Partenariat / Presse</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Message *</label>
+          <textarea placeholder="Votre message..."></textarea>
+        </div>
+        <button class="form-submit" onclick="sendMessage()">Envoyer le message</button>
+        <p style="font-size:10px;color:var(--texte-doux);margin-top:12px;text-align:center;">Réponse sous 24h — Données confidentielles</p>
+      </div>
+
+      <div class="form-side reveal" style="transition-delay:0.15s;">
+        <div class="section-eyebrow">✦ FAQ</div>
+        <div class="section-title" style="font-size:34px;">Questions<br><em>fréquentes</em></div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-question">Faut-il obligatoirement réserver ?</div>
+            <div class="faq-answer">Non, mais c'est fortement recommandé le vendredi et samedi soir. En semaine, nous acceptons souvent les clients sans réservation.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Acceptez-vous les chiens ?</div>
+            <div class="faq-answer">Oui ! Les chiens sont les bienvenus en terrasse (aux beaux jours) et à l'intérieur s'ils sont calmes.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Avez-vous des options végétariennes ?</div>
+            <div class="faq-answer">Absolument. Une grande partie de notre carte est végétarienne ou facilement adaptable. Signalez-le lors de votre réservation.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Organisez-vous des repas de groupe ?</div>
+            <div class="faq-answer">Oui, pour les tables de 8 à 25 personnes. Contactez-nous par email pour un menu personnalisé et un devis.</div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-question">Proposez-vous des cours de cuisine ?</div>
+            <div class="faq-answer">Marco organise des ateliers pâtes fraîches le dimanche matin, une fois par mois. Renseignez-vous par email.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARTE / MAP -->
+  <section class="section-map">
+    <div class="map-placeholder">
+      <span style="font-size:48px;">🗺️</span>
+      <p>12 Rue Mercière · 69002 Lyon · Presqu'île</p>
+      <a href="https://maps.google.com" target="_blank">Ouvrir dans Google Maps →</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo-name">Trattoria della Vigna</span>
+      <span class="nav-logo-sub">Cuisine italienne · Lyon 2e</span>
+      <p>12 Rue Mercière<br>69002 Lyon · 04 78 00 00 00</p>
+    </div>
+    <div class="footer-links"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">La Carte</a></li><li><a href="chef.html">Le Chef</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="horaires.html">Horaires</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Infos</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Allergènes</a></li><li><a href="#">Recrutement</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Trattoria della Vigna · Tous droits réservés</p>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TripAdvisor</a></div>
+  </div>
+</footer>
+
+<div id="popup-reservation">
+  <div class="popup-inner">
+    <div class="popup-header">
+      <div>
+        <div class="popup-title-small">🌿 Trattoria della Vigna</div>
+        <div class="popup-title">Réserver une table</div>
+      </div>
+      <button class="popup-close" onclick="fermerPopup()">✕</button>
+    </div>
+    <iframe src="https://restaurant-reservation-9r5p.vercel.app/"></iframe>
+  </div>
+</div>
+
+<div class="notif" id="notif"><div class="notif-title"></div><div class="notif-text"></div></div>
+<script src="main.js"></script>
+<script>
+function sendMessage() {
+  showNotif('Message envoyé ✓', 'Merci ! Nous vous répondrons sous 24h.');
+}
+</script>
+</body>
+</html>

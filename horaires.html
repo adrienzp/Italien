@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horaires — Trattoria della Vigna</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.horaires-page { padding-top: 70px; }
+
+/* SECTION PRINCIPALE */
+.horaires-main {
+  background: var(--creme);
+  padding: 80px;
+}
+
+.horaires-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  max-width: 960px;
+  margin: 60px auto 0;
+  align-items: start;
+}
+
+/* TABLEAU DES JOURS */
+.horaires-tableau {
+  background: var(--blanc);
+  border: 1px solid rgba(74,82,64,0.1);
+}
+
+.horaires-tableau-header {
+  background: var(--olive);
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.horaires-tableau-header span {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: rgba(245,239,224,0.6);
+  text-transform: uppercase;
+}
+
+.jour-row {
+  display: flex;
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid rgba(74,82,64,0.07);
+  transition: background 0.2s;
+}
+
+.jour-row:last-child { border-bottom: none; }
+
+.jour-row:hover { background: var(--creme-fonce); }
+
+.jour-row.today { background: rgba(196,113,74,0.06); border-left: 3px solid var(--terra); }
+.jour-row.ferme { opacity: 0.45; }
+
+.jour-nom {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  color: var(--brun);
+  min-width: 130px;
+  font-weight: 400;
+}
+
+.jour-row.today .jour-nom { color: var(--terra); }
+
+.jour-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(74,82,64,0.15);
+  margin: 0 16px;
+  flex-shrink: 0;
+}
+
+.jour-row.today .jour-dot { background: var(--terra); }
+.jour-row:not(.ferme) .jour-dot { background: var(--olive-pale); }
+
+.jour-horaire {
+  font-size: 13px;
+  color: var(--texte-doux);
+  flex: 1;
+}
+
+.jour-row.today .jour-horaire { color: var(--texte); font-weight: 400; }
+
+.ferme-badge {
+  font-size: 9px;
+  letter-spacing: 2px;
+  background: rgba(74,82,64,0.08);
+  color: var(--texte-doux);
+  padding: 4px 12px;
+  text-transform: uppercase;
+}
+
+/* INFOS RAPIDES */
+.infos-rapides { }
+
+.info-block {
+  background: var(--blanc);
+  border: 1px solid rgba(74,82,64,0.1);
+  padding: 32px;
+  margin-bottom: 2px;
+  transition: border-color 0.3s;
+}
+
+.info-block:hover { border-color: rgba(196,113,74,0.3); }
+
+.info-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.info-title { font-size: 10px; letter-spacing: 3px; color: var(--terra); text-transform: uppercase; margin-bottom: 8px; }
+.info-content { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--brun); margin-bottom: 6px; }
+.info-detail { font-size: 12px; color: var(--texte-doux); line-height: 1.7; }
+
+/* INFOS PRATIQUES */
+.infos-pratiques {
+  background: var(--creme-fonce);
+  padding: 80px;
+}
+
+.pratiques-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  margin-top: 48px;
+}
+
+.pratique-item {
+  background: var(--blanc);
+  padding: 32px 24px;
+  text-align: center;
+  border: 1px solid rgba(74,82,64,0.07);
+}
+
+.pratique-icon { font-size: 32px; margin-bottom: 14px; display: block; }
+.pratique-title { font-size: 13px; font-weight: 700; color: var(--brun); margin-bottom: 8px; }
+.pratique-desc { font-size: 11px; color: var(--texte-doux); line-height: 1.7; }
+
+/* CTA RESERV */
+.horaires-cta {
+  background: var(--olive);
+  padding: 80px;
+  text-align: center;
+}
+
+.horaires-cta .section-title { color: var(--creme); }
+.horaires-cta .section-intro { color: rgba(245,239,224,0.65); text-align: center; margin: 0 auto 36px; }
+
+/* Badge "aujourd'hui ouvert" */
+.status-banner {
+  background: var(--terra);
+  padding: 14px 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.status-dot-live {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blanc);
+  animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+
+.status-text { font-size: 11px; letter-spacing: 3px; color: var(--blanc); text-transform: uppercase; font-weight: 700; }
+
+@media(max-width: 768px) {
+  .horaires-main { padding: 40px 20px; }
+  .horaires-grid { grid-template-columns: 1fr; gap: 32px; }
+  .infos-pratiques { padding: 60px 24px; }
+  .pratiques-grid { grid-template-columns: 1fr 1fr; }
+  .horaires-cta { padding: 60px 24px; }
+  .status-banner { padding: 14px 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="menu.html">La Carte</a></li>
+    <li><a href="chef.html">Le Chef</a></li>
+  </ul>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-name">Trattoria della Vigna</div>
+    <div class="nav-logo-sub">Cuisine italienne · Lyon 2e</div>
+  </a>
+  <ul class="nav-links" style="justify-content:flex-end;">
+    <li><a href="horaires.html" class="active">Horaires</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservation.html" class="nav-reserve">Réserver</a></li>
+  </ul>
+</nav>
+
+<div class="horaires-page">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">✦ Quand nous rendre visite ?</div>
+      <h1 class="page-title">Horaires &<br><em>Accès</em></h1>
+      <div class="terra-line"></div>
+      <p class="page-subtitle">Ouvert du mardi au dimanche</p>
+    </div>
+  </div>
+
+  <!-- STATUT LIVE -->
+  <div class="status-banner" id="status-banner">
+    <div class="status-dot-live"></div>
+    <div class="status-text" id="status-text">Chargement...</div>
+  </div>
+
+  <!-- HORAIRES MAIN -->
+  <section class="horaires-main">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Nos horaires</div>
+      <div class="section-title">La table vous<br><em>attend</em></div>
+      <div class="terra-line"></div>
+    </div>
+
+    <div class="horaires-grid">
+
+      <!-- TABLEAU -->
+      <div class="reveal">
+        <div class="horaires-tableau">
+          <div class="horaires-tableau-header">
+            <span>Jour</span>
+            <span>Déjeuner &amp; Dîner</span>
+          </div>
+
+          <div class="jour-row ferme" id="row-lundi">
+            <div class="jour-nom">Lundi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire"><span class="ferme-badge">Fermé</span></div>
+          </div>
+
+          <div class="jour-row" id="row-mardi">
+            <div class="jour-nom">Mardi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 14h30 · 19h00 – 22h30</div>
+          </div>
+
+          <div class="jour-row" id="row-mercredi">
+            <div class="jour-nom">Mercredi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 14h30 · 19h00 – 22h30</div>
+          </div>
+
+          <div class="jour-row" id="row-jeudi">
+            <div class="jour-nom">Jeudi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 14h30 · 19h00 – 22h30</div>
+          </div>
+
+          <div class="jour-row" id="row-vendredi">
+            <div class="jour-nom">Vendredi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 14h30 · 19h00 – 23h00</div>
+          </div>
+
+          <div class="jour-row" id="row-samedi">
+            <div class="jour-nom">Samedi</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 15h00 · 19h00 – 23h00</div>
+          </div>
+
+          <div class="jour-row" id="row-dimanche">
+            <div class="jour-nom">Dimanche</div>
+            <div class="jour-dot"></div>
+            <div class="jour-horaire">12h00 – 15h30 · Soir sur réservation</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:20px;background:rgba(74,82,64,0.05);font-size:11px;color:var(--texte-doux);line-height:1.8;border-left:2px solid var(--terra);">
+          🌿 Fermeture annuelle : 3 semaines en août · Fermé les jours fériés nationaux<br>
+          📞 Réservation recommandée le week-end
+        </div>
+      </div>
+
+      <!-- INFOS RAPIDES -->
+      <div class="reveal" style="transition-delay:0.15s;">
+        <div class="info-block">
+          <span class="info-icon">📍</span>
+          <div class="info-title">Adresse</div>
+          <div class="info-content">12 Rue Mercière</div>
+          <div class="info-detail">69002 Lyon · Presqu'île<br>Métro Bellecour (lignes A & D) · 3 min à pied</div>
+        </div>
+        <div class="info-block">
+          <span class="info-icon">📞</span>
+          <div class="info-title">Téléphone</div>
+          <div class="info-content">04 78 00 00 00</div>
+          <div class="info-detail">Du mardi au dimanche<br>De 10h à 15h et de 18h à 22h</div>
+        </div>
+        <div class="info-block">
+          <span class="info-icon">✉️</span>
+          <div class="info-title">Email</div>
+          <div class="info-content">contact@trattoria-vigna.fr</div>
+          <div class="info-detail">Réponse sous 24h<br>Pour groupes &amp; événements</div>
+        </div>
+        <div class="info-block" style="background:var(--terra);border-color:var(--terra);cursor:pointer;" onclick="ouvrirPopup()">
+          <span class="info-icon">🗓️</span>
+          <div class="info-title" style="color:rgba(255,255,255,0.7);">Réservation en ligne</div>
+          <div class="info-content" style="color:var(--blanc);">Réserver maintenant →</div>
+          <div class="info-detail" style="color:rgba(255,255,255,0.7);">Disponible 24h/24, 7j/7</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFOS PRATIQUES -->
+  <section class="infos-pratiques">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Informations pratiques</div>
+      <div class="section-title">Comment<br><em>venir ?</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="pratiques-grid">
+      <div class="pratique-item reveal">
+        <span class="pratique-icon">🚇</span>
+        <div class="pratique-title">Métro</div>
+        <div class="pratique-desc">Station Bellecour<br>Lignes A & D · 3 min à pied</div>
+      </div>
+      <div class="pratique-item reveal" style="transition-delay:0.1s;">
+        <span class="pratique-icon">🚌</span>
+        <div class="pratique-title">Bus</div>
+        <div class="pratique-desc">Lignes C14, C3, C25<br>Arrêt Mercière</div>
+      </div>
+      <div class="pratique-item reveal" style="transition-delay:0.2s;">
+        <span class="pratique-icon">🚗</span>
+        <div class="pratique-title">Voiture</div>
+        <div class="pratique-desc">Parking Bellecour<br>5 min à pied · Tarif réduit</div>
+      </div>
+      <div class="pratique-item reveal" style="transition-delay:0.3s;">
+        <span class="pratique-icon">🚲</span>
+        <div class="pratique-title">Vélo</div>
+        <div class="pratique-desc">Station Vélo'v devant<br>Pistes cyclables directes</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="horaires-cta">
+    <div class="section-eyebrow" style="color:var(--terra-clair);">✦ Prêt pour ce soir ?</div>
+    <div class="section-title">Réservez votre<br><em style="color:var(--terra-clair)">table</em></div>
+    <p class="section-intro">La réservation est recommandée le week-end. Pour les groupes de plus de 8 personnes, contactez-nous directement par téléphone.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <button onclick="ouvrirPopup()" style="background:var(--creme);color:var(--olive);padding:16px 40px;font-family:'Lato',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;">Réserver en ligne</button>
+      <a href="tel:+33478000000" class="btn-outline-white">📞 04 78 00 00 00</a>
+    </div>
+  </section>
+</div>
+
+<div id="popup-reservation">
+  <div class="popup-inner">
+    <div class="popup-header">
+      <div>
+        <div class="popup-title-small">🌿 Trattoria della Vigna</div>
+        <div class="popup-title">Réserver une table</div>
+      </div>
+      <button class="popup-close" onclick="fermerPopup()">✕</button>
+    </div>
+    <iframe src="https://restaurant-reservation-9r5p.vercel.app/"></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo-name">Trattoria della Vigna</span>
+      <span class="nav-logo-sub">Cuisine italienne · Lyon 2e</span>
+      <p>12 Rue Mercière<br>69002 Lyon · 04 78 00 00 00</p>
+    </div>
+    <div class="footer-links"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">La Carte</a></li><li><a href="chef.html">Le Chef</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="horaires.html">Horaires</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Infos</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Allergènes</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Trattoria della Vigna · Tous droits réservés</p>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TripAdvisor</a></div>
+  </div>
+</footer>
+
+<div class="notif" id="notif"><div class="notif-title"></div><div class="notif-text"></div></div>
+<script src="main.js"></script>
+<script>
+// Highlight du jour actuel et statut live
+const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+const dayFr = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const now = new Date();
+const dayIndex = now.getDay(); // 0=dim, 1=lun...
+const hour = now.getHours() + now.getMinutes() / 60;
+
+const jourKey = jours[dayIndex];
+const row = document.getElementById('row-' + jourKey);
+if (row) row.classList.add('today');
+
+// Statut ouvert/fermé
+const statusBanner = document.getElementById('status-banner');
+const statusText = document.getElementById('status-text');
+
+const ferme = dayIndex === 1; // Lundi fermé
+const dejeune = hour >= 12 && hour < 14.5;
+const dine = hour >= 19 && hour < 22.5;
+const ouvert = !ferme && (dejeune || dine);
+
+if (ouvert) {
+  statusBanner.style.background = 'var(--olive)';
+  statusText.textContent = 'Ouvert maintenant — ' + (dejeune ? 'Service déjeuner jusqu\'à 14h30' : 'Service dîner jusqu\'à 22h30');
+} else if (ferme) {
+  statusBanner.style.background = 'var(--brun)';
+  statusText.textContent = 'Fermé le lundi — Nous sommes ouverts du mardi au dimanche';
+} else {
+  statusBanner.style.background = 'var(--brun-clair)';
+  const prochaine = (dayIndex === 1) ? 'mardi' : (dejeune ? 'ce soir à 19h00' : (hour < 12 ? 'aujourd\'hui à 12h00' : 'demain à 12h00'));
+  statusText.textContent = 'Actuellement fermé — Prochain service : ' + prochaine;
+}
+</script>
+</body>
+</html>

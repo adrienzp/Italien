@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Chef — Trattoria della Vigna</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.chef-page { padding-top: 70px; }
+
+.chef-intro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 620px;
+}
+
+.chef-portrait {
+  background: linear-gradient(160deg, var(--olive) 0%, var(--brun) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.chef-portrait-inner {
+  width: 320px;
+  height: 380px;
+  background: rgba(245,239,224,0.05);
+  border: 1px solid rgba(245,239,224,0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  font-size: 80px;
+}
+
+.chef-portrait-inner::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(196,113,74,0.2);
+}
+
+.chef-portrait-deco {
+  position: absolute;
+  font-size: 120px;
+  opacity: 0.04;
+}
+
+.chef-portrait-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--terra-clair);
+  margin-top: 16px;
+  letter-spacing: 2px;
+}
+
+.chef-bio {
+  background: var(--creme);
+  padding: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chef-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 44px;
+  font-weight: 400;
+  color: var(--brun);
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.chef-name em { font-style: italic; color: var(--olive); }
+
+.chef-role {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: var(--terra);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.chef-bio p {
+  font-size: 14px;
+  color: var(--texte-doux);
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
+.chef-stats {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(74,82,64,0.12);
+}
+
+.chef-stat { text-align: center; }
+.chef-stat-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 34px;
+  color: var(--terra);
+  display: block;
+}
+.chef-stat-label { font-size: 10px; letter-spacing: 2px; color: var(--texte-doux); text-transform: uppercase; }
+
+/* PHILOSOPHIE */
+.philosophie { padding: 100px 80px; background: var(--creme-fonce); }
+
+.philo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-top: 60px;
+  align-items: center;
+}
+
+.philo-text { }
+
+.philo-text h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: var(--brun);
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.philo-text h3 em { font-style: italic; color: var(--olive); }
+.philo-text p { font-size: 13px; color: var(--texte-doux); line-height: 2; margin-bottom: 16px; }
+
+.quote-block {
+  background: var(--olive);
+  padding: 48px;
+  position: relative;
+}
+
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 100px;
+  color: rgba(196,113,74,0.25);
+  position: absolute;
+  top: -10px;
+  left: 32px;
+  line-height: 1;
+}
+
+.quote-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-style: italic;
+  color: var(--creme);
+  line-height: 1.7;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-author { font-size: 11px; letter-spacing: 3px; color: var(--terra-clair); text-transform: uppercase; margin-top: 20px; }
+
+/* ÉQUIPE */
+.equipe { padding: 100px 80px; background: var(--blanc); }
+
+.equipe-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-top: 60px;
+}
+
+.membre-card {
+  padding: 40px;
+  text-align: center;
+  border: 1px solid rgba(74,82,64,0.07);
+  background: var(--creme-fonce);
+  transition: all 0.3s;
+}
+
+.membre-card:hover { transform: translateY(-4px); box-shadow: 0 16px 32px rgba(58,46,30,0.08); }
+
+.membre-avatar { font-size: 48px; margin-bottom: 20px; display: block; }
+.membre-nom { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--brun); margin-bottom: 6px; }
+.membre-role { font-size: 9px; letter-spacing: 3px; color: var(--terra); text-transform: uppercase; margin-bottom: 14px; }
+.membre-desc { font-size: 12px; color: var(--texte-doux); line-height: 1.8; }
+
+/* MÉDIAS */
+.medias { background: var(--olive); padding: 80px; }
+.medias-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 48px; }
+.media-item {
+  background: rgba(245,239,224,0.05);
+  border: 1px solid rgba(245,239,224,0.08);
+  padding: 32px;
+  text-align: center;
+}
+.media-note { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--terra-clair); margin-bottom: 8px; }
+.media-name { font-size: 10px; letter-spacing: 3px; color: rgba(245,239,224,0.5); text-transform: uppercase; }
+
+@media(max-width: 768px) {
+  .chef-intro { grid-template-columns: 1fr; }
+  .chef-portrait { min-height: 300px; }
+  .chef-bio { padding: 50px 24px; }
+  .chef-stats { flex-wrap: wrap; gap: 20px; }
+  .philosophie { padding: 60px 24px; }
+  .philo-grid { grid-template-columns: 1fr; }
+  .equipe { padding: 60px 24px; }
+  .equipe-grid { grid-template-columns: 1fr; }
+  .medias { padding: 60px 24px; }
+  .medias-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <ul class="nav-links">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="menu.html">La Carte</a></li>
+    <li><a href="chef.html" class="active">Le Chef</a></li>
+  </ul>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-name">Trattoria della Vigna</div>
+    <div class="nav-logo-sub">Cuisine italienne · Lyon 2e</div>
+  </a>
+  <ul class="nav-links" style="justify-content:flex-end;">
+    <li><a href="horaires.html">Horaires</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reservation.html" class="nav-reserve">Réserver</a></li>
+  </ul>
+</nav>
+
+<div class="chef-page">
+  <div class="page-hero">
+    <div class="page-hero-content">
+      <div class="page-eyebrow">✦ La passion derrière chaque plat</div>
+      <h1 class="page-title">Le <em>Chef</em></h1>
+      <div class="terra-line"></div>
+      <p class="page-subtitle">Marco Ferretti · Cuisinier · Passionné</p>
+    </div>
+  </div>
+
+  <!-- CHEF INTRO -->
+  <div class="chef-intro">
+    <div class="chef-portrait">
+      <div class="chef-portrait-deco">🇮🇹</div>
+      <div class="chef-portrait-inner">
+        👨‍🍳
+        <div class="chef-portrait-label">Marco Ferretti</div>
+      </div>
+    </div>
+    <div class="chef-bio">
+      <div class="chef-role">Chef & Fondateur</div>
+      <h1 class="chef-name">Marco<br><em>Ferretti</em></h1>
+      <p>Né à Florence en 1978, Marco a grandi entre les marmites de la cuisine de sa grand-mère et les marchés du Mercato Centrale. Sa passion pour la cuisine italienne authentique n'est pas un métier — c'est une vocation.</p>
+      <p>Après une formation à l'école hôtelière de Rome et dix ans passés dans des cuisines florentines et milanaises, il s'installe à Lyon en 2012 avec une conviction simple : la cuisine italienne mérite d'être cuisinée avec respect, sans compromis.</p>
+      <p>Aujourd'hui, Marco cuisine encore chaque jour dans sa trattoria, choisit ses produits le matin au marché, et prépare lui-même ses pâtes fraîches.</p>
+      <div class="chef-stats">
+        <div class="chef-stat">
+          <span class="chef-stat-number">14</span>
+          <span class="chef-stat-label">Ans à Lyon</span>
+        </div>
+        <div class="chef-stat">
+          <span class="chef-stat-number">3</span>
+          <span class="chef-stat-label">Régions d'Italie</span>
+        </div>
+        <div class="chef-stat">
+          <span class="chef-stat-number">100%</span>
+          <span class="chef-stat-label">Fait maison</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHILOSOPHIE -->
+  <section class="philosophie">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Ce qui nous guide</div>
+      <div class="section-title">La philosophie<br><em>della Vigna</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="philo-grid">
+      <div class="philo-text">
+        <h3>La <em>simplicité</em> avant tout</h3>
+        <p>La grande cuisine italienne n'est pas une cuisine compliquée. C'est une cuisine honnête, qui respecte ses ingrédients. Pas besoin de 15 éléments dans l'assiette — juste les bons produits, bien traités.</p>
+        <p>Chez nous, une pasta al pomodoro doit être parfaite. Tomates San Marzano, basilic frais, huile d'olive de qualité. Rien de plus, rien de moins.</p>
+        <h3 style="margin-top:32px;">Le <em>respect</em> des saisons</h3>
+        <p>La carte change chaque saison. L'automne amène les truffes et les champignons. L'été, les tomates et les courgettes. On ne fait pas de concessions sur la saisonnalité.</p>
+      </div>
+      <div class="quote-block reveal">
+        <div class="quote-mark">"</div>
+        <div class="quote-text">La cuisine italienne, c'est comme un bon vin : on ne peut pas tricher. Les ingrédients parlent d'eux-mêmes. Mon rôle, c'est juste de ne pas les abîmer.</div>
+        <div class="quote-author">— Marco Ferretti, Chef fondateur</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉQUIPE -->
+  <section class="equipe">
+    <div style="text-align:center;">
+      <div class="section-eyebrow">✦ Derrière les fourneaux</div>
+      <div class="section-title">Notre <em>équipe</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="equipe-grid">
+      <div class="membre-card reveal">
+        <span class="membre-avatar">👨‍🍳</span>
+        <div class="membre-nom">Marco Ferretti</div>
+        <div class="membre-role">Chef & Fondateur</div>
+        <div class="membre-desc">Florence, 14 ans à Lyon. Spécialiste des pâtes fraîches et des recettes toscanes.</div>
+      </div>
+      <div class="membre-card reveal" style="transition-delay:0.1s;">
+        <span class="membre-avatar">👩‍🍳</span>
+        <div class="membre-nom">Sofia Romano</div>
+        <div class="membre-role">Chef de partie — Dolci</div>
+        <div class="membre-desc">Originaire de Naples, Sofia prépare les desserts et les pâtisseries avec une précision redoutable.</div>
+      </div>
+      <div class="membre-card reveal" style="transition-delay:0.2s;">
+        <span class="membre-avatar">🍷</span>
+        <div class="membre-nom">Luca Bianchi</div>
+        <div class="membre-role">Sommelier</div>
+        <div class="membre-desc">Passionné par les vignobles italiens, Luca sélectionne chaque bouteille de notre cave.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEDIAS -->
+  <section class="medias">
+    <div style="text-align:center;">
+      <div class="section-eyebrow" style="color:var(--terra-clair);">✦ Ils parlent de nous</div>
+      <div class="section-title" style="color:var(--creme);">Nos <em style="color:var(--terra-clair)">avis</em></div>
+      <div class="terra-line"></div>
+    </div>
+    <div class="medias-grid">
+      <div class="media-item reveal">
+        <div class="media-note">4.7/5</div>
+        <div class="media-name">Google Reviews</div>
+      </div>
+      <div class="media-item reveal">
+        <div class="media-note">9.2/10</div>
+        <div class="media-name">TheFork</div>
+      </div>
+      <div class="media-item reveal">
+        <div class="media-note">🏆</div>
+        <div class="media-name">Coup de cœur<br>Le Fooding 2024</div>
+      </div>
+      <div class="media-item reveal">
+        <div class="media-note">Top 10</div>
+        <div class="media-name">Meilleur italien<br>Lyon — 2023</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="popup-reservation">
+  <div class="popup-inner">
+    <div class="popup-header">
+      <div>
+        <div class="popup-title-small">🌿 Trattoria della Vigna</div>
+        <div class="popup-title">Réserver une table</div>
+      </div>
+      <button class="popup-close" onclick="fermerPopup()">✕</button>
+    </div>
+    <iframe src="https://restaurant-reservation-9r5p.vercel.app/"></iframe>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo-name">Trattoria della Vigna</span>
+      <span class="nav-logo-sub">Cuisine italienne · Lyon 2e</span>
+      <p>12 Rue Mercière<br>69002 Lyon · 04 78 00 00 00</p>
+    </div>
+    <div class="footer-links"><h4>Pages</h4><ul><li><a href="index.html">Accueil</a></li><li><a href="menu.html">La Carte</a></li><li><a href="chef.html">Le Chef</a></li><li><a href="reservation.html">Réservation</a></li><li><a href="horaires.html">Horaires</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="footer-links"><h4>Infos</h4><ul><li><a href="#">Mentions légales</a></li><li><a href="#">Allergènes</a></li><li><a href="#">Recrutement</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Trattoria della Vigna · Tous droits réservés</p>
+    <div class="footer-social"><a href="#">Instagram</a><a href="#">Facebook</a><a href="#">TripAdvisor</a></div>
+  </div>
+</footer>
+
+<div class="notif" id="notif"><div class="notif-title"></div><div class="notif-text"></div></div>
+<script src="main.js"></script>
+</body>
+</html>
